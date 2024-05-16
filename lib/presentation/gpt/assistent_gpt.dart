@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:share_whatsapp/share_whatsapp.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
+import 'package:yanapa/presentation/home/controller_home.dart';
 
 class AssistentGpt extends StatefulWidget {
   AssistentGpt({super.key});
@@ -19,6 +21,7 @@ class _SupportGptScreenState extends State<AssistentGpt> {
   String textSearching = '';
 
   SupportGptController gptController = Get.find();
+  ControllerHome controllerHome = Get.find();
 
   final TextEditingController _controller = TextEditingController();
 
@@ -174,7 +177,11 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      shareWhatsapp.shareFile(
+                                          controllerHome.listOfImages.first,
+                                          phone: '59171533208');
+                                    },
                                     child: Ink(
                                       child: Image.asset(
                                           'assets/images/whatsapp.png'),

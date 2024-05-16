@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:share_whatsapp/share_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
@@ -15,14 +16,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   // if (!await launchUrlString('+59170688940')) {
-      //   //   throw Exception('Could not launch +59170688940');
-      //   // }
-      //   launchUrlString(
-      //     "tel://800106000",
-      //   );
-      // }),
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        // launchUrlString(
+        //   "tel://800106000",
+        // );
+
+        // shareWhatsapp.shareText('_kTextMessage', phone: '59165537461');
+        shareWhatsapp.shareFile(controllerHome.listOfImages.first,
+            phone: '59165537461');
+      }),
       body: SafeArea(
         child: Obx(() {
           return SingleChildScrollView(
