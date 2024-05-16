@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
 
 class AssistentGpt extends StatefulWidget {
@@ -182,7 +183,11 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      launchUrlString(
+                                        "tel://800106000",
+                                      );
+                                    },
                                     child: Ink(
                                       child: Image.asset(
                                           'assets/images/telephone.png'),
