@@ -9,6 +9,9 @@ import 'dart:math';
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
+import 'package:yanapa/core/utils/utils.dart';
+import 'package:yanapa/presentation/gpt/assistent_gpt.dart';
+import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
 
 class ControllerHome extends GetxController {
   RxList<XFile> listOfImages = <XFile>[].obs;
@@ -57,9 +60,17 @@ class ControllerHome extends GetxController {
   }
 
   Future analizeButton() async {
-    List<Map<String, String>> listOfJsonsTextToAnalize =
-        await getJsonOfTextSinceImages();
-    print(listOfJsonsTextToAnalize);
+    excecuteProcess(Get.context!, () async {
+      List<Map<String, String>> listOfJsonsTextToAnalize =
+          await getJsonOfTextSinceImages();
+
+      SupportGptController gptController = Get.put(SupportGptController());
+      await gptController.initChat(listOfJsonsTextToAnalize).then((value) =>
+          Navigator.push(Get.context!,
+              MaterialPageRoute(builder: (context) => AssistentGpt())));
+
+      print(listOfJsonsTextToAnalize);
+    });
   }
 
   Future<List<Map<String, String>>> getJsonOfTextSinceImages() async {

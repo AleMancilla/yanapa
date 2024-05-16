@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:cross_file/src/types/interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -84,6 +82,12 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   ),
                 ),
+                SizedBox(height: 20),
+                // SizedBox(
+                //   width: MediaQuery.of(context).size.width,
+                //   height: MediaQuery.of(context).size.height,
+                //   child: AssistentGpt(),
+                // ),
               ],
             ),
           );
@@ -165,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: Ink(
                   decoration:
-                      BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                      BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
                   child: Icon(
                     Icons.close,
                     size: 15,

@@ -22,10 +22,22 @@ void showLoading(BuildContext context) {
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return const AlertDialog(
+      return AlertDialog(
         backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        contentPadding: EdgeInsets.all(0),
+        titlePadding: EdgeInsets.all(100),
         content: Center(
-          child: CircularProgressIndicator(),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(
+              'assets/images/scanDocument.gif',
+              height: 400,
+              fit: BoxFit.cover,
+            ),
+          ),
+          // child: CircularProgressIndicator(),
         ),
       );
     },
