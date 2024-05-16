@@ -62,7 +62,9 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 InkWell(
                   borderRadius: BorderRadius.circular(100),
-                  onTap: () {},
+                  onTap: () {
+                    controllerHome.analizeButton();
+                  },
                   child: Ink(
                     child: Text(
                       'Analizar',

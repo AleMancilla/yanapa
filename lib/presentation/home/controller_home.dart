@@ -1,7 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'dart:math';
+import 'dart:developer' as dev;
+
+import 'package:flutter/material.dart';
 
 class ControllerHome extends GetxController {
   RxList<XFile> listOfImages = <XFile>[].obs;
@@ -47,5 +54,39 @@ class ControllerHome extends GetxController {
       print('No image selected.');
     }
     return [];
+  }
+
+  Future analizeButton() async {
+    List<Map<String, String>> listOfJsonsTextToAnalize =
+        await getJsonOfTextSinceImages();
+    print(listOfJsonsTextToAnalize);
+  }
+
+  Future<List<Map<String, String>>> getJsonOfTextSinceImages() async {
+    List<Map<String, String>> listOfJsons = [];
+    for (var xfile in listOfImages) {
+      // listOfImages.forEach((xfile) async {
+      print(' ------------------------- ');
+      final inputImage = InputImage.fromFile(File(xfile.path));
+      final textRecognizer =
+          TextRecognizer(script: TextRecognitionScript.latin);
+
+      final RecognizedText recognizedText =
+          await textRecognizer.processImage(inputImage);
+
+      // String text = recognizedText.text;
+      Map<String, String> tempJson = {};
+      int i = 0;
+      for (TextBlock block in recognizedText.blocks) {
+        i = i + 1;
+        tempJson["block_$i"] = (block.text.replaceAll('\n', ' ')).trim();
+        print(' --- ${block.text.trim()}');
+      }
+      listOfJsons.add(tempJson);
+    }
+
+    dev.log(jsonEncode(listOfJsons));
+    print(listOfJsons);
+    return listOfJsons;
   }
 }
