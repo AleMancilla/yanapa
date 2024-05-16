@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:yanapa/presentation/home/home_screen.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
