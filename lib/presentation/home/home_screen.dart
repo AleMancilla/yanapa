@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:share_whatsapp/share_whatsapp.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:yanapa/core/utils/utils.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,8 +23,10 @@ class HomeScreen extends StatelessWidget {
         // );
 
         // shareWhatsapp.shareText('_kTextMessage', phone: '59165537461');
-        shareWhatsapp.shareFile(controllerHome.listOfImages.first,
-            phone: '59165537461');
+        // shareWhatsapp.shareFile(controllerHome.listOfImages.first,
+        //     phone: '59165537461');
+        // shareWhatsapp.shareText('controllerHome.listOfImages.first',
+        //     phone: '59165537461');
       }),
       body: SafeArea(
         child: Obx(() {
@@ -59,6 +62,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 _btnChargeImageHere(size),
                 SizedBox(height: 20),
+
                 if (controllerHome.listOfImages.length > 0)
                   Wrap(
                     runSpacing: 10,
@@ -73,7 +77,11 @@ class HomeScreen extends StatelessWidget {
                 InkWell(
                   borderRadius: BorderRadius.circular(100),
                   onTap: () {
-                    controllerHome.analizeButton();
+                    if (controllerHome.listOfImages.length == 0) {
+                      showToastMessage("Por favor cargue alguna imagen");
+                    } else {
+                      controllerHome.analizeButton();
+                    }
                   },
                   child: Ink(
                     child: Text(

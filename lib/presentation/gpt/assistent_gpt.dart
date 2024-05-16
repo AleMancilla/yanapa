@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
 import 'package:share_whatsapp/share_whatsapp.dart';
@@ -45,6 +48,168 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                     Expanded(
                       child: ListView(
                         children: [
+                          if (controllerHome.listOfImages.length > 0)
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              color: Colors.blueGrey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Tus Imagenes',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: controllerHome.listOfImages
+                                          .map(
+                                            (element) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: _imageFileItem(
+                                                  File(element.path),
+                                                  sizeimage: 50),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (gptController.isFraud)
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              color: Colors.red[300],
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Posibles fraudes similares',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        'assets/posibles/1.jpeg',
+                                        'assets/posibles/2.jpeg',
+                                        'assets/posibles/3.jpeg',
+                                        'assets/posibles/4.jpeg',
+                                        'assets/posibles/5.jpeg',
+                                        'assets/posibles/6.jpg',
+                                        'assets/posibles/7.jpeg',
+                                        'assets/posibles/8.jpg',
+                                        'assets/posibles/9.jpeg',
+                                        'assets/posibles/10.jpeg',
+                                      ]
+                                          .map(
+                                            (element) => Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: Get.context!,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                      backgroundColor:
+                                                          Colors.blueGrey[900],
+                                                      // iconPadding: EdgeInsets.all(0),
+                                                      // insetPadding: EdgeInsets.all(0),
+                                                      // titlePadding: EdgeInsets.all(0),
+                                                      // buttonPadding: EdgeInsets.all(0),
+                                                      // actionsPadding: EdgeInsets.all(0),
+                                                      contentPadding:
+                                                          EdgeInsets.all(0),
+                                                      content: Container(
+                                                        width: MediaQuery.of(
+                                                                Get.context!)
+                                                            .size
+                                                            .width,
+                                                        height: MediaQuery.of(
+                                                                Get.context!)
+                                                            .size
+                                                            .height,
+                                                        child: Stack(
+                                                          children: [
+                                                            Image.asset(
+                                                              element,
+                                                              width: MediaQuery
+                                                                      .of(Get
+                                                                          .context!)
+                                                                  .size
+                                                                  .width,
+                                                              height: MediaQuery
+                                                                      .of(Get
+                                                                          .context!)
+                                                                  .size
+                                                                  .height,
+                                                            ),
+                                                            Material(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: Ink(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            100),
+                                                                    color: Colors
+                                                                        .blue,
+                                                                  ),
+                                                                  child: Icon(Icons
+                                                                      .arrow_back),
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              15),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Ink(
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey.shade200,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                  ),
+                                                  child: Image.asset(
+                                                    element,
+                                                    width: 70,
+                                                    height: 70,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           for (final ModelMessageToGpt line
                               in gptController.listMessageToShow)
                             itemMessage(line),
@@ -93,133 +258,7 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                     )
                   ],
                 ),
-                // gptController.alertMessage.value
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  color: Colors.black.withOpacity(0.5),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(child: Container()),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {},
-                                child: Ink(
-                                  // margin: EdgeInsets.all(20),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 5),
-                                  child: Text(
-                                    'X',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 40,
-                            )
-                          ],
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          margin:
-                              EdgeInsets.only(left: 50, right: 50, bottom: 100),
-                          decoration: BoxDecoration(
-                            color: Colors.red[100],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.warning,
-                                    color: Colors.red,
-                                  ),
-                                  SizedBox(width: 20),
-                                  Flexible(
-                                    child: Text(
-                                      'ALERTA DE POSIBLE FRAUDE',
-                                      // textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Flexible(
-                                child: Text(
-                                    'Se detecto una posible alerta de fraude, puedes brindar mas informacion a nuestro ChatBot para mas informacion o denunciar a instancias de la ATT en los botones a continuacion'),
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                'Denuncialo en cualquiera de los siguientes botones',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      shareWhatsapp.shareFile(
-                                          controllerHome.listOfImages.first,
-                                          phone: '59171533208');
-                                    },
-                                    child: Ink(
-                                      child: Image.asset(
-                                          'assets/images/whatsapp.png'),
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      launchUrlString(
-                                        "tel://800106000",
-                                      );
-                                    },
-                                    child: Ink(
-                                      child: Image.asset(
-                                          'assets/images/telephone.png'),
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Ink(
-                                      child: Image.asset(
-                                          'assets/images/gmail.png'),
-                                      width: 50,
-                                      height: 50,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                gptController.alertMessage.value
               ],
             ),
           )),
@@ -255,10 +294,10 @@ class _SupportGptScreenState extends State<AssistentGpt> {
     if (line.rol == 'gpt') {
       return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          // color: CustomColors.greyGreenSimple,
-          color: Colors.blueGrey,
-        ),
+            borderRadius: BorderRadius.circular(30),
+            // color: CustomColors.greyGreenSimple,
+            color: Colors.grey[200],
+            border: Border.all(color: Colors.black12)),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: EdgeInsets.only(right: 60, left: 20, top: 10, bottom: 10),
         child: Text(line.message),
@@ -285,6 +324,75 @@ class _SupportGptScreenState extends State<AssistentGpt> {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(line.message),
+    );
+  }
+
+  Widget _imageFileItem(File element, {double sizeimage = 150}) {
+    return Container(
+      width: sizeimage,
+      height: sizeimage,
+      decoration: BoxDecoration(
+          color: Colors.white60, borderRadius: BorderRadius.circular(10)),
+      child: Stack(
+        children: [
+          InkWell(
+            onTap: () {
+              showDialog(
+                context: Get.context!,
+                builder: (context) => AlertDialog(
+                  backgroundColor: Colors.blueGrey[900],
+                  // iconPadding: EdgeInsets.all(0),
+                  // insetPadding: EdgeInsets.all(0),
+                  // titlePadding: EdgeInsets.all(0),
+                  // buttonPadding: EdgeInsets.all(0),
+                  // actionsPadding: EdgeInsets.all(0),
+                  contentPadding: EdgeInsets.all(0),
+                  content: Container(
+                    width: MediaQuery.of(Get.context!).size.width,
+                    height: MediaQuery.of(Get.context!).size.height,
+                    child: Stack(
+                      children: [
+                        Image.file(
+                          element,
+                          width: MediaQuery.of(Get.context!).size.width,
+                          height: MediaQuery.of(Get.context!).size.height,
+                        ),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.blue,
+                              ),
+                              child: Icon(Icons.arrow_back),
+                              padding: EdgeInsets.all(15),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+            child: Ink(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Image.file(
+                File(element.path),
+                width: sizeimage,
+                height: sizeimage,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

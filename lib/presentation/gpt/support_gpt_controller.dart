@@ -3,9 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:share_whatsapp/share_whatsapp.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:yanapa/presentation/home/controller_home.dart';
 
 class SupportGptController extends GetxController {
   RxList<ModelMessageToGpt> listMessageToShow = <ModelMessageToGpt>[].obs;
+  ControllerHome controllerHome = Get.find();
+
   RxBool waitingResponse = false.obs;
   final ChatGPT chatGPT =
       ChatGPT('sk-proj-s7R5KHZOpXHTJ4fLcPQ6T3BlbkFJcMbNKZMnxslh4vZ0oYIl');
@@ -39,38 +44,140 @@ si consideras que tiene probabilidad de ser fraude o estafa porfavor inicia tu r
 en caso de ser una estafa o fraude podrias darme un mensaje que indique
 =CATEGORIA: \$nombrecategoria=
 y una breve descripcion de como operan esta estafa o fraude
-caso contrario o si no hay suficiente informacionpor favor inicia con el texto -NORMAL- solicitando mas contexto de la situacion
+caso contrario o si no hay suficiente informacionpor favor inicia con el texto -REQUIEROMASINFORMACION- solicitando mas contexto de la situacion
 ''',
     ]);
     _response = "$_response/NEWLINE/$response";
     waitingResponse.value = false;
     addWidgetMessage('gpt', response);
     if (response.contains('-ALERTADEFRAUDE-')) {
+      isFraud = true;
       showAlertDialog();
     }
   }
 
+  bool isFraud = false;
+
   Rx<Widget> alertMessage = Rx<Widget>(Container());
 
   showAlertDialog() {
-    alertMessage.value = Center(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.red[100],
-          borderRadius: BorderRadius.circular(20),
-        ),
+    alertMessage.value = Container(
+      width: MediaQuery.of(Get.context!).size.width,
+      height: MediaQuery.of(Get.context!).size.height,
+      color: Colors.black.withOpacity(0.5),
+      child: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
-                Icon(Icons.warning),
-                Text('ALERTA DE POSIBLE FRAUDE'),
+                Expanded(child: Container()),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      alertMessage.value = Container();
+                    },
+                    child: Ink(
+                      // margin: EdgeInsets.all(20),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      child: Text(
+                        'X',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                )
               ],
             ),
-            Flexible(
-              child: Text(
-                  'Se detecto una posible alerta de fraude, puedes brindar mas informacion a nuestro ChatBot para mas informacion o denunciar a instancias de la ATT en los botones a continuacion'),
+            Container(
+              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.only(left: 50, right: 50, bottom: 100),
+              decoration: BoxDecoration(
+                color: Colors.red[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.warning,
+                        color: Colors.red,
+                      ),
+                      SizedBox(width: 20),
+                      Flexible(
+                        child: Text(
+                          'ALERTA DE POSIBLE FRAUDE',
+                          // textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Flexible(
+                    child: Text(
+                        'Se detecto una posible alerta de fraude, puedes brindar mas informacion a nuestro ChatBot para mas informacion o denunciar a instancias de la ATT en los botones a continuacion'),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Denuncialo en cualquiera de los siguientes botones',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          shareWhatsapp.shareFile(
+                              controllerHome.listOfImages.first,
+                              phone: '59171533208');
+                        },
+                        child: Ink(
+                          child: Image.asset('assets/images/whatsapp.png'),
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          launchUrlString(
+                            "tel://800106000",
+                          );
+                        },
+                        child: Ink(
+                          child: Image.asset('assets/images/telephone.png'),
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Ink(
+                          child: Image.asset('assets/images/gmail.png'),
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
