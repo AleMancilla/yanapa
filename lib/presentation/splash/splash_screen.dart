@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yanapa/presentation/home/home_screen.dart';
+import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -31,7 +32,8 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(Duration(seconds: 5)); // Simula carga de datos
 
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        context, MaterialPageRoute(builder: (context) => OnboardingScreen()));
+    // context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
   @override
