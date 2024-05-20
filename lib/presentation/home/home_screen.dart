@@ -84,6 +84,36 @@ class HomeScreen extends StatelessWidget {
                               .toList(),
                         ),
                       SizedBox(height: 20),
+
+                      InkWell(
+                        borderRadius: BorderRadius.circular(100),
+                        onTap: () {
+                          if (controllerHome.listOfImages.length == 0) {
+                            showToastMessage("Por favor cargue alguna imagen");
+                          } else {
+                            controllerHome.analizeButton();
+                          }
+                        },
+                        child: Ink(
+                          child: Text(
+                            'Analizar',
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: Colors.green,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                )
+                              ]),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 10),
+                        ),
+                      ),
                       // SizedBox(
                       //   width: MediaQuery.of(context).size.width,
                       //   height: MediaQuery.of(context).size.height,

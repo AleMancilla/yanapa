@@ -294,7 +294,7 @@ class _SupportGptScreenState extends State<AssistentGpt> {
     if (line.rol == 'gpt') {
       return Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(20),
             // color: CustomColors.greyGreenSimple,
             color: Colors.grey[200],
             border: Border.all(color: Colors.black12)),
@@ -306,10 +306,10 @@ class _SupportGptScreenState extends State<AssistentGpt> {
     if (line.rol == 'user') {
       return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          // color: CustomColors.greyGreenSimple,
-          color: Colors.blueGrey,
-        ),
+            borderRadius: BorderRadius.circular(20),
+            // color: CustomColors.greyGreenSimple,
+            color: Colors.blue[100],
+            border: Border.all(color: Colors.black12)),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: EdgeInsets.only(right: 20, left: 60, top: 10, bottom: 10),
         child: Text(line.message),

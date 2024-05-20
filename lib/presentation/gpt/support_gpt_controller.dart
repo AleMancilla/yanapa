@@ -42,9 +42,23 @@ si consideras que tiene probabilidad de ser fraude o estafa porfavor inicia tu r
 
 -ALERTADEFRAUDE-
 en caso de ser una estafa o fraude podrias darme un mensaje que indique
+
 =CATEGORIA: \$nombrecategoria=
+
 y una breve descripcion de como operan esta estafa o fraude
+
 caso contrario o si no hay suficiente informacionpor favor inicia con el texto -REQUIEROMASINFORMACION- solicitando mas contexto de la situacion
+
+en resumen necesito que tu respuesta tenga el formato siguiente:
+
+-ALERTADEFRAUDE-/-REQUIEROMASINFORMACION-
+
+=CATEGORIA: {categoria}
+
+MODUS OPERANDI: {Explica el modus operandi de esa estafa}
+
+DESCRIPCION: {Explica por que crees que la informacion que te proporcione consideras que es una estafa}
+
 ''',
     ]);
     _response = "$_response/NEWLINE/$response";
