@@ -17,14 +17,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   ];
 
   final List<String> descriptions = [
-    '''Detecta de forma temprana: Gracias a nuestro modelo de inteligencia artificial de última generación, podemos identificar posibles señales de enfermedades oculares como:
-- Ojos saltones
-- Cataratas
-- Ojos cruzados
-- Glaucoma
-- Uveítis''',
-    'Te brinda un diagnóstico personalizado: Nuestro sistema de análisis avanzado interpreta los datos proporcionados por la IA y te ofrece un diagnóstico inicial y recomendaciones de cuidados específicos para tu caso.',
-    'Te conecta con oftalmólogos de confianza: En base a tu ubicación y necesidades, te sugerimos oftalmólogos de prestigio en tu zona para que puedas obtener un diagnóstico definitivo y el tratamiento adecuado.',
+    '''YANAPA 
+    Reconocimiento de texto y análisis lingüístico: La app debe extraer texto de imágenes y analizarlo en busca de señales de fraude.''',
+    'Algoritmos avanzados de detección de fraudes: Debe usar técnicas de aprendizaje automático para identificar patrones sospechosos en el texto.',
+    'Actualización continua y adaptabilidad: Se mantiene al día con las últimas tácticas de estafadores y mejorar constantemente su capacidad de detección.',
   ];
 
   @override

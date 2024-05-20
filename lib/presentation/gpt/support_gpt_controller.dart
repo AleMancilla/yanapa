@@ -111,21 +111,22 @@ caso contrario o si no hay suficiente informacionpor favor inicia con el texto -
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.warning,
-                        color: Colors.red,
-                      ),
-                      SizedBox(width: 20),
-                      Flexible(
-                        child: Text(
-                          'ALERTA DE POSIBLE FRAUDE',
-                          // textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: Image.asset(
+                      'assets/images/alert.png',
+                      width: 150,
+                      fit: BoxFit.cover,
+                    ),
+                    width: 150,
+                    // height: 250,
+                  ),
+                  Flexible(
+                    child: Text(
+                      'ALERTA DE POSIBLE FRAUDE',
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   SizedBox(height: 10),
                   Flexible(

@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/core/utils/utils.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
+import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -17,101 +18,157 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        // launchUrlString(
-        //   "tel://800106000",
-        // );
+      // floatingActionButton: FloatingActionButton(onPressed: () async {
+      //   // launchUrlString(
+      //   //   "tel://800106000",
+      //   // );
 
-        // shareWhatsapp.shareText('_kTextMessage', phone: '59165537461');
-        // shareWhatsapp.shareFile(controllerHome.listOfImages.first,
-        //     phone: '59165537461');
-        // shareWhatsapp.shareText('controllerHome.listOfImages.first',
-        //     phone: '59165537461');
-      }),
+      //   // shareWhatsapp.shareText('_kTextMessage', phone: '59165537461');
+      //   // shareWhatsapp.shareFile(controllerHome.listOfImages.first,
+      //   //     phone: '59165537461');
+      //   // shareWhatsapp.shareText('controllerHome.listOfImages.first',
+      //   //     phone: '59165537461');
+      // }),
       body: SafeArea(
-        child: Obx(() {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Ink(
-                          // margin: EdgeInsets.all(20),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          child: Text(
-                            'Tutorial. 🧐',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(() {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(child: Container()),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            OnboardingScreen()));
+                              },
+                              child: Ink(
+                                // margin: EdgeInsets.all(20),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: Text(
+                                  'Tutorial. 🧐',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.blueGrey,
+                                ),
+                              ),
                             ),
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blueGrey,
+                        ],
+                      ),
+                      _btnChargeImageHere(size),
+                      SizedBox(height: 20),
+
+                      if (controllerHome.listOfImages.length > 0)
+                        Wrap(
+                          runSpacing: 10,
+                          spacing: 10,
+                          children: controllerHome.listOfImages
+                              .map(
+                                (element) => _imageFileItem(File(element.path)),
+                              )
+                              .toList(),
+                        ),
+                      SizedBox(height: 20),
+                      // SizedBox(
+                      //   width: MediaQuery.of(context).size.width,
+                      //   height: MediaQuery.of(context).size.height,
+                      //   child: AssistentGpt(),
+                      // ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+            Container(
+              color: Color(0xFFF5F5F5),
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/Yanapa/breaking_news.svg',
+                        width: 32,
+                        height: 32,
+                      ),
+                      Text('Noticias'),
+                    ],
+                  ),
+                  Material(
+                    child: InkWell(
+                      // borderRadius: BorderRadius.circular(100),
+                      onTap: () {
+                        if (controllerHome.listOfImages.length == 0) {
+                          showToastMessage("Por favor cargue alguna imagen");
+                        } else {
+                          controllerHome.analizeButton();
+                        }
+                      },
+                      child: Ink(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/Yanapa/frame_inspect.svg',
+                                width: 32,
+                                height: 32,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                'Analizar',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        decoration: BoxDecoration(
+                            // borderRadius: BorderRadius.circular(100),
+                            color: Color(0xFF17BF95),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                              )
+                            ]),
+                        // padding:
+                        //     EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                       ),
                     ),
-                  ],
-                ),
-                _btnChargeImageHere(size),
-                SizedBox(height: 20),
-
-                if (controllerHome.listOfImages.length > 0)
-                  Wrap(
-                    runSpacing: 10,
-                    spacing: 10,
-                    children: controllerHome.listOfImages
-                        .map(
-                          (element) => _imageFileItem(File(element.path)),
-                        )
-                        .toList(),
                   ),
-                SizedBox(height: 20),
-                InkWell(
-                  borderRadius: BorderRadius.circular(100),
-                  onTap: () {
-                    if (controllerHome.listOfImages.length == 0) {
-                      showToastMessage("Por favor cargue alguna imagen");
-                    } else {
-                      controllerHome.analizeButton();
-                    }
-                  },
-                  child: Ink(
-                    child: Text(
-                      'Analizar',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
+                  Column(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/Yanapa/account_circle.svg',
+                        width: 32,
+                        height: 32,
                       ),
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.green,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                          )
-                        ]),
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                      Text('Perfil'),
+                    ],
                   ),
-                ),
-                SizedBox(height: 20),
-                // SizedBox(
-                //   width: MediaQuery.of(context).size.width,
-                //   height: MediaQuery.of(context).size.height,
-                //   child: AssistentGpt(),
-                // ),
-              ],
+                ],
+              ),
             ),
-          );
-        }),
+          ],
+        ),
       ),
     );
   }

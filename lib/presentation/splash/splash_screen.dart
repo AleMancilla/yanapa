@@ -50,18 +50,21 @@ class _SplashScreenState extends State<SplashScreen>
         Expanded(
           child: FadeTransition(
             opacity: _animation!,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30),
-              child: Center(
+            child: Center(
+              child: Container(
+                alignment: Alignment.center,
                 // child: Image.asset(
                 //   'assets/images/splash.jpeg',
                 //   width: sizeScreen.width / 1.2,
                 //   height: sizeScreen.width / 1.2,
                 // ),
+                width: sizeScreen.width / 1.5,
+                height: sizeScreen.width / 1.5,
                 child: SvgPicture.asset(
-                  'assets/images/AI_fraud_Detection_header.svg',
-                  width: sizeScreen.width / 1.2,
-                  height: sizeScreen.width / 1.2,
+                  'assets/images/Yanapo_logo.svg',
+                  width: sizeScreen.width / 1.5,
+                  height: sizeScreen.width / 1.5,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
