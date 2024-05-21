@@ -32,6 +32,7 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
+            SvgPicture.asset('assets/images/logobanner.svg'),
             Expanded(
               child: Obx(() {
                 return SingleChildScrollView(
@@ -97,36 +98,50 @@ class HomeScreen extends StatelessWidget {
             ),
             Material(
               color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(100),
-                onTap: () {
-                  if (controllerHome.listOfImages.length == 0) {
-                    showToastMessage("Por favor cargue alguna imagen");
-                  } else {
-                    controllerHome.analizeButton();
-                  }
-                },
-                child: Ink(
-                  child: Text(
-                    'Analizar',
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                // padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      if (controllerHome.listOfImages.length == 0) {
+                        showToastMessage("Por favor cargue alguna imagen");
+                      } else {
+                        controllerHome.analizeButton();
+                      }
+                    },
+                    child: Ink(
+                      width: double.infinity,
+                      child: Text(
+                        'Analizar',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Color(0xFF3DE9B7),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                            )
+                          ]),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     ),
                   ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.green,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                        )
-                      ]),
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            // SizedBox(height: 20),
             Container(
               color: Color(0xFFF5F5F5),
               width: double.infinity,
