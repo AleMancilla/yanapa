@@ -49,7 +49,7 @@ y una breve descripcion de como operan esta estafa o fraude
 
 caso contrario o si no hay suficiente informacionpor favor inicia con el texto -REQUIEROMASINFORMACION- solicitando mas contexto de la situacion
 
-en resumen necesito que tu respuesta tenga el formato siguiente:
+en resumen necesito que tu respuesta tenga el formato siguiente, recuerda usar decorativos como negrillas o tablas si lo consideras necesario:
 
 -ALERTADEFRAUDE-/-REQUIEROMASINFORMACION-
 

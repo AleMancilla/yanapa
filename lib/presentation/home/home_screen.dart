@@ -85,35 +85,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       SizedBox(height: 20),
 
-                      InkWell(
-                        borderRadius: BorderRadius.circular(100),
-                        onTap: () {
-                          if (controllerHome.listOfImages.length == 0) {
-                            showToastMessage("Por favor cargue alguna imagen");
-                          } else {
-                            controllerHome.analizeButton();
-                          }
-                        },
-                        child: Ink(
-                          child: Text(
-                            'Analizar',
-                            style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.white,
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.green,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                )
-                              ]),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 10),
-                        ),
-                      ),
                       // SizedBox(
                       //   width: MediaQuery.of(context).size.width,
                       //   height: MediaQuery.of(context).size.height,
@@ -124,6 +95,38 @@ class HomeScreen extends StatelessWidget {
                 );
               }),
             ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(100),
+                onTap: () {
+                  if (controllerHome.listOfImages.length == 0) {
+                    showToastMessage("Por favor cargue alguna imagen");
+                  } else {
+                    controllerHome.analizeButton();
+                  }
+                },
+                child: Ink(
+                  child: Text(
+                    'Analizar',
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.green,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                        )
+                      ]),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
             Container(
               color: Color(0xFFF5F5F5),
               width: double.infinity,

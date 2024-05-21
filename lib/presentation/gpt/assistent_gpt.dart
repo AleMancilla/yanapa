@@ -1,11 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
-import 'package:share_whatsapp/share_whatsapp.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
 
@@ -290,9 +287,10 @@ class _SupportGptScreenState extends State<AssistentGpt> {
     );
   }
 
-  Container itemMessage(ModelMessageToGpt line) {
+  Widget itemMessage(ModelMessageToGpt line) {
     if (line.rol == 'gpt') {
       return Container(
+        // height: constraints.maxHeight,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             // color: CustomColors.greyGreenSimple,
@@ -300,7 +298,11 @@ class _SupportGptScreenState extends State<AssistentGpt> {
             border: Border.all(color: Colors.black12)),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: EdgeInsets.only(right: 60, left: 20, top: 10, bottom: 10),
-        child: Text(line.message),
+        child: Markdown(
+          data: line.message,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+        ),
       );
     }
     if (line.rol == 'user') {
@@ -312,7 +314,11 @@ class _SupportGptScreenState extends State<AssistentGpt> {
             border: Border.all(color: Colors.black12)),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         margin: EdgeInsets.only(right: 20, left: 60, top: 10, bottom: 10),
-        child: Text(line.message),
+        child: Markdown(
+          data: line.message,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+        ),
       );
     }
     return Container(
@@ -323,7 +329,11 @@ class _SupportGptScreenState extends State<AssistentGpt> {
       ),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Text(line.message),
+      child: Markdown(
+        data: line.message,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+      ),
     );
   }
 
