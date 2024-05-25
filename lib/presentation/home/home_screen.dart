@@ -18,17 +18,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(onPressed: () async {
-      //   // launchUrlString(
-      //   //   "tel://800106000",
-      //   // );
-
-      //   // shareWhatsapp.shareText('_kTextMessage', phone: '59165537461');
-      //   // shareWhatsapp.shareFile(controllerHome.listOfImages.first,
-      //   //     phone: '59165537461');
-      //   // shareWhatsapp.shareText('controllerHome.listOfImages.first',
-      //   //     phone: '59165537461');
-      // }),
       body: SafeArea(
         child: Column(
           children: [
@@ -85,12 +74,6 @@ class HomeScreen extends StatelessWidget {
                               .toList(),
                         ),
                       SizedBox(height: 20),
-
-                      // SizedBox(
-                      //   width: MediaQuery.of(context).size.width,
-                      //   height: MediaQuery.of(context).size.height,
-                      //   child: AssistentGpt(),
-                      // ),
                     ],
                   ),
                 );

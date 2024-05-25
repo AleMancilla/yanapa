@@ -52,7 +52,7 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Tus Imagenes',
                                     style: TextStyle(
                                       color: Colors.white,
