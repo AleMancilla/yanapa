@@ -47,6 +47,7 @@ dependencies:
   share_whatsapp: ^1.0.2
 
   flutter_markdown: 
+  firebase_core: ^2.27.0
 
 dev_dependencies:
   flutter_test:

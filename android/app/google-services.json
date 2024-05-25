@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "690956410725",
+    "project_id": "yanapa-80f76",
+    "storage_bucket": "yanapa-80f76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690956410725:android:99d4255b600ec5941f8b8c",
+        "android_client_info": {
+          "package_name": "com.example.yanapa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDZaRMaTX_ii1h2MNiKYM-esIhd_HLeKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
