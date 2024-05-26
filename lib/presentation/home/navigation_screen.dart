@@ -1,9 +1,7 @@
-import 'dart:developer';
-import 'dart:math';
-
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:yanapa/presentation/home/home_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -38,7 +36,7 @@ class _MyHomePageState extends State<NavigationScreen> {
         controller: (_controller),
       ),
       HomeScreen(),
-      const Page3(),
+      Page3(),
     ];
     return Scaffold(
       body: PageView(
@@ -196,12 +194,43 @@ class Page2 extends StatelessWidget {
 }
 
 class Page3 extends StatelessWidget {
-  const Page3({Key? key}) : super(key: key);
+  Page3({Key? key}) : super(key: key);
+
+  WebViewController controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setBackgroundColor(const Color(0x00000000))
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (int progress) {
+          // Update loading bar.
+        },
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        // onHttpError: (HttpResponseError error) {},
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          if (request.url.startsWith('https://www.youtube.com/')) {
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    )
+    ..loadRequest(Uri.parse('https://bloquealaestafa.att.gob.bo/'));
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.red, child: const Center(child: Text('Page 3')));
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SafeArea(
+        child: Container(
+            color: Colors.white,
+            child: WebViewWidget(
+              controller: controller,
+              // initialUrl: 'https://flutter.dev',
+            )),
+      ),
+    );
   }
 }
 
