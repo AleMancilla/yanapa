@@ -65,6 +65,7 @@ class ControllerHome extends GetxController {
           await getJsonOfTextSinceImages();
 
       SupportGptController gptController = Get.put(SupportGptController());
+      gptController.isFraud = false;
       await gptController.initChat(listOfJsonsTextToAnalize).then((value) =>
           Navigator.push(Get.context!,
               MaterialPageRoute(builder: (context) => AssistentGpt())));

@@ -103,13 +103,59 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'El asistente potenciado con inteligencia artificial no tiene la palabra final, se recomienda siempre contactar con un especialista',
+                        'El asistente potenciado con inteligencia artificial solo te brinda un analizis por computadora, no remplaza al criterio de un ser Humano',
                         style: TextStyle(fontSize: 10),
                       ),
                     )
                   ],
                 ),
-                gptController.alertMessage.value
+                if (gptController.isFraud)
+                  Positioned(
+                    right: 10,
+                    bottom: 100,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                shadowColor: Colors.transparent,
+                                backgroundColor: Colors.transparent,
+                                surfaceTintColor: Colors.transparent,
+                                iconColor: Colors.transparent,
+                                iconPadding: EdgeInsets.all(0),
+                                insetPadding: EdgeInsets.all(0),
+                                titlePadding: EdgeInsets.all(0),
+                                buttonPadding: EdgeInsets.all(0),
+                                actionsPadding: EdgeInsets.all(0),
+                                contentPadding: EdgeInsets.all(0),
+                                content: gptController.widgetAlert(ontap: () {
+                                  Navigator.pop(context);
+                                }),
+                              );
+                            },
+                          );
+                        },
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          width: 60,
+                          height: 60,
+                          child: Center(
+                            child: Icon(
+                              Icons.warning,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                gptController.alertMessage.value,
               ],
             ),
           )),

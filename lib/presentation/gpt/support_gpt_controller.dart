@@ -74,8 +74,8 @@ class SupportGptController extends GetxController {
 
   Rx<Widget> alertMessage = Rx<Widget>(Container());
 
-  showAlertDialog() {
-    alertMessage.value = Container(
+  Widget widgetAlert({Function? ontap}) {
+    return Container(
       width: MediaQuery.of(Get.context!).size.width,
       height: MediaQuery.of(Get.context!).size.height,
       color: Colors.black.withOpacity(0.5),
@@ -90,6 +90,9 @@ class SupportGptController extends GetxController {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
+                      if (ontap != null) {
+                        ontap!.call();
+                      }
                       alertMessage.value = Container();
                     },
                     child: Ink(
@@ -159,8 +162,11 @@ class SupportGptController extends GetxController {
                     children: [
                       InkWell(
                         onTap: () {
-                          shareWhatsapp.shareFile(
-                              controllerHome.listOfImages.first,
+                          // shareWhatsapp.shareFile(
+                          //     controllerHome.listOfImages.first,
+                          //     phone: '59171533208');
+                          shareWhatsapp.shareText(
+                              'Hola, quiero registrar una denuncia de estafa/fraude digital.',
                               phone: '59171533208');
                         },
                         child: Ink(
@@ -176,15 +182,18 @@ class SupportGptController extends GetxController {
                           );
                         },
                         child: Ink(
-                          child: Image.asset('assets/images/telephone.png'),
+                          child: Image.asset('assets/images/call-center.png'),
                           width: 50,
                           height: 50,
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          launchUrlString(
+                              "https://bloquealaestafa.att.gob.bo/");
+                        },
                         child: Ink(
-                          child: Image.asset('assets/images/gmail.png'),
+                          child: Image.asset('assets/images/internet.png'),
                           width: 50,
                           height: 50,
                         ),
@@ -198,6 +207,10 @@ class SupportGptController extends GetxController {
         ),
       ),
     );
+  }
+
+  showAlertDialog() {
+    alertMessage.value = widgetAlert();
   }
 
   void addWidgetMessage(String rol, String message) {
@@ -227,6 +240,9 @@ class SupportGptController extends GetxController {
       _response = _response + "/NEWLINE/" + response;
       // listOfProductsSuggest.value = getProfessionalModelSuggested(response);
       addWidgetMessage('gpt', response);
+      if (response.contains('-ALERTADEFRAUDE-')) {
+        isFraud = true;
+      }
     }
   }
 }
