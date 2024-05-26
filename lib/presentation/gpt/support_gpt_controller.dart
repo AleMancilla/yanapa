@@ -15,8 +15,21 @@ class SupportGptController extends GetxController {
 
   RxBool waitingResponse = false.obs;
   final ChatGPT chatGPT = ChatGPT();
+  final ScrollController scrollController = ScrollController();
 
   String _response = '';
+
+  void scrollToBottom() {
+    try {
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
   @override
   void onInit() {
@@ -193,6 +206,9 @@ class SupportGptController extends GetxController {
       rol: rol,
       date: DateTime.now().millisecond,
     ));
+    Future.delayed(Duration(milliseconds: 300), () {
+      scrollToBottom();
+    });
   }
 
   Future<void> sendMessage(String message) async {
