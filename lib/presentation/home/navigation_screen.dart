@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:yanapa/presentation/home/home_screen.dart';
+import 'package:yanapa/presentation/home/notice_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({Key? key}) : super(key: key);
@@ -32,11 +33,9 @@ class _MyHomePageState extends State<NavigationScreen> {
   Widget build(BuildContext context) {
     /// widget list
     final List<Widget> bottomBarPages = [
-      Page1(
-        controller: (_controller),
-      ),
+      NoticeScreen(),
       HomeScreen(),
-      Page3(),
+      DenunciaWebViewScreen(),
     ];
     return Scaffold(
       body: PageView(
@@ -159,42 +158,8 @@ class _MyHomePageState extends State<NavigationScreen> {
   }
 }
 
-/// add controller to check weather index through change or not. in page 1
-class Page1 extends StatelessWidget {
-  final NotchBottomBarController? controller;
-
-  const Page1({Key? key, this.controller}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.yellow,
-      child: Center(
-        /// adding GestureDetector
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-            controller?.jumpTo(2);
-          },
-          child: const Text('Page 1'),
-        ),
-      ),
-    );
-  }
-}
-
-class Page2 extends StatelessWidget {
-  const Page2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.green, child: const Center(child: Text('Page 2')));
-  }
-}
-
-class Page3 extends StatelessWidget {
-  Page3({Key? key}) : super(key: key);
+class DenunciaWebViewScreen extends StatelessWidget {
+  DenunciaWebViewScreen({Key? key}) : super(key: key);
 
   WebViewController controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -231,26 +196,5 @@ class Page3 extends StatelessWidget {
             )),
       ),
     );
-  }
-}
-
-class Page4 extends StatelessWidget {
-  const Page4({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.blue, child: const Center(child: Text('Page 4')));
-  }
-}
-
-class Page5 extends StatelessWidget {
-  const Page5({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: Colors.lightGreenAccent,
-        child: const Center(child: Text('Page 5')));
   }
 }
