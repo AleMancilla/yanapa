@@ -121,79 +121,79 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             // SizedBox(height: 20),
-            Container(
-              color: Color(0xFFF5F5F5),
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/Yanapa/breaking_news.svg',
-                        width: 32,
-                        height: 32,
-                      ),
-                      Text('Noticias'),
-                    ],
-                  ),
-                  Material(
-                    child: InkWell(
-                      // borderRadius: BorderRadius.circular(100),
-                      onTap: () {
-                        if (controllerHome.listOfImages.length == 0) {
-                          showToastMessage("Por favor cargue alguna imagen");
-                        } else {
-                          controllerHome.analizeButton();
-                        }
-                      },
-                      child: Ink(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
-                          child: Column(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/Yanapa/frame_inspect.svg',
-                                width: 32,
-                                height: 32,
-                                color: Colors.white,
-                              ),
-                              Text(
-                                'Analizar',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                            // borderRadius: BorderRadius.circular(100),
-                            color: Color(0xFF17BF95),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                              )
-                            ]),
-                        // padding:
-                        //     EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      SvgPicture.asset(
-                        'assets/images/Yanapa/account_circle.svg',
-                        width: 32,
-                        height: 32,
-                      ),
-                      Text('Perfil'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   color: Color(0xFFF5F5F5),
+            //   width: double.infinity,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: [
+            //       Column(
+            //         children: [
+            //           SvgPicture.asset(
+            //             'assets/images/Yanapa/breaking_news.svg',
+            //             width: 32,
+            //             height: 32,
+            //           ),
+            //           Text('Noticias'),
+            //         ],
+            //       ),
+            //       Material(
+            //         child: InkWell(
+            //           // borderRadius: BorderRadius.circular(100),
+            //           onTap: () {
+            //             if (controllerHome.listOfImages.length == 0) {
+            //               showToastMessage("Por favor cargue alguna imagen");
+            //             } else {
+            //               controllerHome.analizeButton();
+            //             }
+            //           },
+            //           child: Ink(
+            //             child: Padding(
+            //               padding: EdgeInsets.symmetric(horizontal: 30),
+            //               child: Column(
+            //                 children: [
+            //                   SvgPicture.asset(
+            //                     'assets/images/Yanapa/frame_inspect.svg',
+            //                     width: 32,
+            //                     height: 32,
+            //                     color: Colors.white,
+            //                   ),
+            //                   Text(
+            //                     'Analizar',
+            //                     style: TextStyle(
+            //                       fontSize: 18,
+            //                       color: Colors.white,
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //             decoration: BoxDecoration(
+            //                 // borderRadius: BorderRadius.circular(100),
+            //                 color: Color(0xFF17BF95),
+            //                 boxShadow: [
+            //                   BoxShadow(
+            //                     color: Colors.black12,
+            //                   )
+            //                 ]),
+            //             // padding:
+            //             //     EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            //           ),
+            //         ),
+            //       ),
+            //       Column(
+            //         children: [
+            //           SvgPicture.asset(
+            //             'assets/images/Yanapa/account_circle.svg',
+            //             width: 32,
+            //             height: 32,
+            //           ),
+            //           Text('Perfil'),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

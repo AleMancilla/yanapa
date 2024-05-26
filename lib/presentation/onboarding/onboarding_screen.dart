@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yanapa/presentation/home/home_screen.dart';
+import 'package:yanapa/presentation/home/navigation_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -60,8 +61,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NavigationScreen()));
+                    // MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
                   child: Ink(
                     decoration: BoxDecoration(
