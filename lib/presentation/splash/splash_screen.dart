@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
+import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   AnimationController? _controller;
   Animation<double>? _animation;
+  RemoteConfigController controller = Get.put(RemoteConfigController());
 
   @override
   void initState() {

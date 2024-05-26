@@ -9,15 +9,22 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/core/utils/utils.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
+import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   ControllerHome controllerHome = Get.put(ControllerHome());
+  RemoteConfigController remoteConfigController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        print(' ----- 1');
+        print(remoteConfigController.jsonRemoteConfigData);
+        print('2');
+      }),
       body: SafeArea(
         child: Column(
           children: [
@@ -62,7 +69,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                       _btnChargeImageHere(size),
                       SizedBox(height: 20),
-
                       if (controllerHome.listOfImages.length > 0)
                         Wrap(
                           runSpacing: 10,

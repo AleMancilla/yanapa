@@ -6,14 +6,15 @@ import 'package:http/http.dart' as http;
 import 'package:share_whatsapp/share_whatsapp.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
+import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
 class SupportGptController extends GetxController {
   RxList<ModelMessageToGpt> listMessageToShow = <ModelMessageToGpt>[].obs;
   ControllerHome controllerHome = Get.find();
+  RemoteConfigController remoteConfigController = Get.find();
 
   RxBool waitingResponse = false.obs;
-  final ChatGPT chatGPT =
-      ChatGPT('sk-proj-s7R5KHZOpXHTJ4fLcPQ6T3BlbkFJcMbNKZMnxslh4vZ0oYIl');
+  final ChatGPT chatGPT = ChatGPT();
 
   String _response = '';
 
@@ -29,38 +30,24 @@ class SupportGptController extends GetxController {
   }
 
   Future<void> initChat(List<Map<String, String>> listJsonsToChatGPT) async {
+    // $listJsonsToChatGPT
     cleanChat();
     waitingResponse.value = true;
-    final response = await chatGPT.preConfigGpt([
-      'Seras un asistente virtual, tu nombre es YanapaBot, te dare informacion sobre capturas de pantalla para determinar si los mensajes parecen fraude o estafa o una situacion normal, por favor evita la palabra JSON en tus respuestas ya que las respuestas se mostrara a un usuario que no entiende mucho de terminologia digital',
-      '''
-puedes analizar la siguiente informacion? es un json que se obtuvo escaneando el texto de una captura de pantalla, y ayudarme a determinar si es una estafa, fraude o una situacion normal, y que puntos a tomar en cuenta analizaste para llegar a esa conclucion
-
-$listJsonsToChatGPT
-
-si consideras que tiene probabilidad de ser fraude o estafa porfavor inicia tu respuesta con el mensaje
-
--ALERTADEFRAUDE-
-en caso de ser una estafa o fraude podrias darme un mensaje que indique
-
-=CATEGORIA: \$nombrecategoria=
-
-y una breve descripcion de como operan esta estafa o fraude
-
-caso contrario o si no hay suficiente informacionpor favor inicia con el texto -REQUIEROMASINFORMACION- solicitando mas contexto de la situacion
-
-en resumen necesito que tu respuesta tenga el formato siguiente, recuerda usar decorativos como negrillas o tablas si lo consideras necesario:
-
--ALERTADEFRAUDE-/-REQUIEROMASINFORMACION-
-
-=CATEGORIA: {categoria}
-
-MODUS OPERANDI: {Explica el modus operandi de esa estafa}
-
-DESCRIPCION: {Explica por que crees que la informacion que te proporcione consideras que es una estafa}
-
-''',
-    ]);
+    final response = await chatGPT.preConfigGpt(
+      (remoteConfigController.jsonRemoteConfigData!.messajes ?? [])
+          .map(
+            (e) => e.replaceAll(
+              '#####DATA_INJECTION_1#####',
+              listJsonsToChatGPT.toString(),
+            ),
+          )
+          .toList(),
+      apiKey: remoteConfigController.validTocken ?? '',
+      baseUrl: remoteConfigController.jsonRemoteConfigData!.baseUrl ??
+          'https://api.openai.com/v1/chat/completions',
+      model: remoteConfigController.jsonRemoteConfigData!.modelGpt ??
+          'gpt-3.5-turbo',
+    );
     _response = "$_response/NEWLINE/$response";
     waitingResponse.value = false;
     addWidgetMessage('gpt', response);
@@ -212,7 +199,14 @@ DESCRIPCION: {Explica por que crees que la informacion que te proporcione consid
     addWidgetMessage('user', message);
     waitingResponse.value = true;
     if (message.isNotEmpty) {
-      final response = await chatGPT.sendMessage(message);
+      final response = await chatGPT.sendMessage(
+        message,
+        apiKey: remoteConfigController.validTocken ?? '',
+        baseUrl: remoteConfigController.jsonRemoteConfigData!.baseUrl ??
+            'https://api.openai.com/v1/chat/completions',
+        model: remoteConfigController.jsonRemoteConfigData!.modelGpt ??
+            'gpt-3.5-turbo',
+      );
       waitingResponse.value = false;
       _response = _response + "/NEWLINE/" + response;
       // listOfProductsSuggest.value = getProfessionalModelSuggested(response);
@@ -222,29 +216,38 @@ DESCRIPCION: {Explica por que crees que la informacion que te proporcione consid
 }
 
 class ChatGPT {
-  final String apiKey;
-
-  ChatGPT(this.apiKey);
+  ChatGPT();
 
   cleanMessages() {
     messages = [];
   }
 
   List<Map<String, String>> messages = [];
-  Future<String> sendMessage(String prompt) async {
+  Future<String> sendMessage(String prompt,
+      {required String apiKey,
+      required String baseUrl,
+      required String model}) async {
     messages.add({
       'role': 'user',
       'content': prompt,
     });
+    return await postRequestGpt(apiKey: apiKey, baseUrl: baseUrl, model: model);
+  }
+
+  int requestIntent = 0;
+  Future<String> postRequestGpt(
+      {required String apiKey,
+      required String baseUrl,
+      required String model}) async {
     try {
       final res = await http.post(
-        Uri.parse('https://api.openai.com/v1/chat/completions'),
+        Uri.parse(baseUrl),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $apiKey',
         },
         body: jsonEncode({
-          "model": "gpt-3.5-turbo",
+          "model": model,
           "messages": messages,
         }),
       );
@@ -255,6 +258,7 @@ class ChatGPT {
 
       log(decodedText);
       if (res.statusCode == 200) {
+        requestIntent = 0;
         String content = jsonObject['choices'][0]['message']['content'];
         content = content.trim();
 
@@ -263,6 +267,17 @@ class ChatGPT {
           'content': content,
         });
         return content;
+      } else if (res.statusCode == 401) {
+        requestIntent = requestIntent + 1;
+        if (requestIntent < 5) {
+          RemoteConfigController remoteConfigController = Get.find();
+          remoteConfigController.rotateTocken();
+          //unauthorized
+          return await postRequestGpt(
+              apiKey: remoteConfigController.validTocken ?? '',
+              baseUrl: baseUrl,
+              model: model);
+        }
       }
       return 'An internal error occurred';
     } catch (e) {
@@ -270,7 +285,10 @@ class ChatGPT {
     }
   }
 
-  Future<String> preConfigGpt(List<String> prompt) async {
+  Future<String> preConfigGpt(List<String> prompt,
+      {required String apiKey,
+      required String baseUrl,
+      required String model}) async {
     prompt.forEach((element) {
       messages.add({
         'role': 'user',
@@ -278,38 +296,7 @@ class ChatGPT {
       });
     });
 
-    try {
-      final res = await http.post(
-        Uri.parse('https://api.openai.com/v1/chat/completions'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
-        },
-        body: jsonEncode({
-          "model": "gpt-3.5-turbo",
-          "messages": messages,
-        }),
-      );
-
-      String decodedText = utf8.decode(res.bodyBytes);
-
-      var jsonObject = jsonDecode(decodedText);
-
-      log(decodedText);
-      if (res.statusCode == 200) {
-        String content = jsonObject['choices'][0]['message']['content'];
-        content = content.trim();
-
-        messages.add({
-          'role': 'assistant',
-          'content': content,
-        });
-        return content;
-      }
-      return 'An internal error occurred';
-    } catch (e) {
-      return e.toString();
-    }
+    return await postRequestGpt(apiKey: apiKey, baseUrl: baseUrl, model: model);
   }
 }
 

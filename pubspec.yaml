@@ -48,6 +48,8 @@ dependencies:
 
   flutter_markdown: 
   firebase_core: ^2.27.0
+  firebase_remote_config: ^4.3.17
+  firebase_analytics: ^10.8.9
 
 dev_dependencies:
   flutter_test:
