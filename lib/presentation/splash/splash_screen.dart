@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:yanapa/presentation/home/admob_controller.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
@@ -14,6 +15,7 @@ class _SplashScreenState extends State<SplashScreen>
   AnimationController? _controller;
   Animation<double>? _animation;
   RemoteConfigController controller = Get.put(RemoteConfigController());
+  AdMobController adMobController = Get.put(AdMobController());
 
   @override
   void initState() {

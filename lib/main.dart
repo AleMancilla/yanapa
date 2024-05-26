@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logger/web.dart';
 import 'package:yanapa/presentation/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,6 +23,8 @@ FirebaseMessaging messaging = FirebaseMessaging.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  MobileAds.instance.initialize();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -74,3 +77,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+// ca-app-pub-1819839075312743~6148818134
+
+// ca-app-pub-1819839075312743/9558027211

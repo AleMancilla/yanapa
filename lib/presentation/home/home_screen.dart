@@ -3,125 +3,152 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:yanapa/adhelp.dart';
 import 'package:yanapa/core/utils/utils.dart';
+import 'package:yanapa/presentation/home/admob_controller.dart';
 import 'package:yanapa/presentation/home/controller_home.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   ControllerHome controllerHome = Get.put(ControllerHome());
+  AdMobController adMobController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      // floatingActionButton:
+      //     FloatingActionButton(onPressed: adMobController.showInterstitialAd),
       body: SafeArea(
-        child: Column(
-          children: [
-            SvgPicture.asset('assets/images/logobanner.svg'),
-            Expanded(
-              child: Obx(() {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(child: Container()),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            OnboardingScreen()));
-                              },
-                              child: Ink(
-                                // margin: EdgeInsets.all(20),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                child: Text(
-                                  'Tutorial. 🧐',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
+        child: Obx(() {
+          return Column(
+            children: [
+              SvgPicture.asset('assets/images/logobanner.svg'),
+              Expanded(
+                child: Obx(() {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(child: Container()),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              OnboardingScreen()));
+                                },
+                                child: Ink(
+                                  // margin: EdgeInsets.all(20),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  child: Text(
+                                    'Tutorial. 🧐',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.blueGrey,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.blueGrey,
+                                  ),
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                        _btnChargeImageHere(size),
+                        SizedBox(height: 20),
+                        if (controllerHome.listOfImages.length > 0)
+                          Wrap(
+                            runSpacing: 10,
+                            spacing: 10,
+                            children: controllerHome.listOfImages
+                                .map(
+                                  (element) =>
+                                      _imageFileItem(File(element.path)),
+                                )
+                                .toList(),
                           ),
-                        ],
-                      ),
-                      _btnChargeImageHere(size),
-                      SizedBox(height: 20),
-                      if (controllerHome.listOfImages.length > 0)
-                        Wrap(
-                          runSpacing: 10,
-                          spacing: 10,
-                          children: controllerHome.listOfImages
-                              .map(
-                                (element) => _imageFileItem(File(element.path)),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+              Material(
+                color: Colors.transparent,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  // padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(15),
+                      onTap: () {
+                        if (controllerHome.listOfImages.length == 0) {
+                          showToastMessage("Por favor cargue alguna imagen");
+                        } else {
+                          controllerHome.analizeButton();
+                        }
+                      },
+                      child: Ink(
+                        width: double.infinity,
+                        child: Text(
+                          'Analizar',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xFF3DE9B7),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
                               )
-                              .toList(),
-                        ),
-                      SizedBox(height: 20),
-                    ],
-                  ),
-                );
-              }),
-            ),
-            Material(
-              color: Colors.transparent,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                // padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(15),
-                    onTap: () {
-                      if (controllerHome.listOfImages.length == 0) {
-                        showToastMessage("Por favor cargue alguna imagen");
-                      } else {
-                        controllerHome.analizeButton();
-                      }
-                    },
-                    child: Ink(
-                      width: double.infinity,
-                      child: Text(
-                        'Analizar',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+                            ]),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                       ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color(0xFF3DE9B7),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                            )
-                          ]),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
+              adMobController.isBottomBannerAdLoaded.value
+                  // ? MyAdWidget()
+                  ? SizedBox(
+                      height:
+                          adMobController.bottomBannerAd.size.height.toDouble(),
+                      width:
+                          adMobController.bottomBannerAd.size.width.toDouble(),
+                      child: MyAdWidget(),
+                      // child: AdWidget(ad: adMobController.bottomBannerAd),
+                    )
+                  : Container(),
+            ],
+          );
+        }),
       ),
     );
   }
