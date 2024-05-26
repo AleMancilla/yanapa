@@ -1,4 +1,4 @@
-package com.example.yanapa
+package com.alecodeando.yanapa
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:690956410725:android:a50c18bab00c87191f8b8c",
+        "android_client_info": {
+          "package_name": "com.alecodeando.yanapa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDZaRMaTX_ii1h2MNiKYM-esIhd_HLeKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:690956410725:android:99d4255b600ec5941f8b8c",
         "android_client_info": {
           "package_name": "com.example.yanapa"

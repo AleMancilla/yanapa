@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDDZaRMaTX_ii1h2MNiKYM-esIhd_HLeKs',
-    appId: '1:690956410725:android:99d4255b600ec5941f8b8c',
+    appId: '1:690956410725:android:a50c18bab00c87191f8b8c',
     messagingSenderId: '690956410725',
     projectId: 'yanapa-80f76',
     storageBucket: 'yanapa-80f76.appspot.com',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDMK5Mj2HZRnBK6rf7nFFDWSIRTb1avdTc',
-    appId: '1:690956410725:ios:1d7707fb0f5864011f8b8c',
+    appId: '1:690956410725:ios:d1d2920f7fe327701f8b8c',
     messagingSenderId: '690956410725',
     projectId: 'yanapa-80f76',
     storageBucket: 'yanapa-80f76.appspot.com',
-    iosBundleId: 'com.example.yanapa',
+    iosBundleId: 'com.alecodeando.yanapa',
   );
+
 }
