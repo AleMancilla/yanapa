@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:yanapa/core/utils/utils.dart';
 import 'package:yanapa/presentation/gpt/assistent_gpt.dart';
 import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
+import 'package:yanapa/presentation/home/firebase_storage_controller.dart';
 
 class ControllerHome extends GetxController {
   RxList<XFile> listOfImages = <XFile>[].obs;
@@ -60,6 +61,8 @@ class ControllerHome extends GetxController {
   }
 
   Future analizeButton() async {
+    // FirebaseStorageController().
+    uploadImagesToFirebase();
     excecuteProcess(Get.context!, () async {
       List<Map<String, String>> listOfJsonsTextToAnalize =
           await getJsonOfTextSinceImages();
@@ -100,5 +103,15 @@ class ControllerHome extends GetxController {
     dev.log(jsonEncode(listOfJsons));
     print(listOfJsons);
     return listOfJsons;
+  }
+
+  Future uploadImagesToFirebase() async {
+    // print(' =========== 1');
+    // for (var xfile in listOfImages) {
+    //   print(' =========== 2');
+    //   String? urlResult =
+    //       await FirebaseStorageController().uploadImage(File(xfile.path));
+    //   print(' -------- urlResult --- $urlResult');
+    // }
   }
 }
