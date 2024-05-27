@@ -66,14 +66,12 @@ class HomeController extends GetxController {
   Future analizeButton() async {
     // FirebaseStorageController().
     excecuteProcess(Get.context!, () async {
-      List<Map<String, String>> listOfJsonsTextToAnalize =
-          await gptController.getJsonOfTextSinceImages();
+      // List<Map<String, String>> listOfJsonsTextToAnalize =
+      await gptController.chargeTextInListData();
       gptController.isFraud = false;
-      await gptController.initChat(listOfJsonsTextToAnalize).then((value) =>
-          Navigator.push(Get.context!,
-              MaterialPageRoute(builder: (context) => AssistentGpt())));
-
-      print(listOfJsonsTextToAnalize);
+      await gptController.initChat().then((value) => Navigator.push(
+          Get.context!,
+          MaterialPageRoute(builder: (context) => AssistentGpt())));
     });
   }
 }

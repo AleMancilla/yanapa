@@ -7,6 +7,8 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:http/http.dart' as http;
 import 'package:share_whatsapp/share_whatsapp.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:yanapa/presentation/home/firebase_firestore.dart';
+import 'package:yanapa/presentation/home/firebase_storage_controller.dart';
 import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
 class SupportGptController extends GetxController {
@@ -17,8 +19,13 @@ class SupportGptController extends GetxController {
   RxBool waitingResponse = false.obs;
   final ChatGPT chatGPT = ChatGPT();
   final ScrollController scrollController = ScrollController();
+  List<Map<String, String>> listOfJsonsTextToAnalize = [];
 
   String _response = '';
+
+  chargeTextInListData() async {
+    listOfJsonsTextToAnalize = await getJsonOfTextSinceImages();
+  }
 
   Future<List<Map<String, String>>> getJsonOfTextSinceImages() async {
     List<Map<String, String>> listOfJsons = [];
@@ -76,7 +83,7 @@ class SupportGptController extends GetxController {
     chatGPT.cleanMessages();
   }
 
-  Future<void> initChat(List<Map<String, String>> listJsonsToChatGPT) async {
+  Future<void> initChat() async {
     // $listJsonsToChatGPT
     cleanChat();
     waitingResponse.value = true;
@@ -85,7 +92,7 @@ class SupportGptController extends GetxController {
           .map(
             (e) => e.replaceAll(
               '#####DATA_INJECTION_1#####',
-              listJsonsToChatGPT.toString(),
+              listOfJsonsTextToAnalize.toString(),
             ),
           )
           .toList(),
@@ -106,37 +113,37 @@ class SupportGptController extends GetxController {
   }
 
   updateToFirestore() async {
-    // // controllerHome.listOfImages
-    // int i = 0;
-    // List<Map<String, String>> listOfJsons = [];
-    // List<Map<String, String>> listOfJsonsToFirestore = [];
-    // for (var xfile in listOfImages) {
-    //   // listOfImages.forEach((xfile) async {
-    //   Map<String, String> tempJson = listJsonsToChatGPT[i];
+    try {
+      int i = 0;
+      List<Map<String, String>> listOfJsons = [];
+      List<Map<String, String>> listOfJsonsToFirestore = [];
+      for (var xfile in listOfImages) {
+        // listOfImages.forEach((xfile) async {
+        Map<String, String> tempJson = listOfJsonsTextToAnalize[i];
+        i = i + 1;
 
-    //   String? urlResult =
-    //       await FirebaseStorageController().uploadImage(File(xfile.path));
+        String? urlResult =
+            await FirebaseStorageController().uploadImage(File(xfile.path));
 
-    //   // listOfJsons.add(tempJson);
-    //   tempJson["urlResult"] = urlResult ?? '_';
-    //   // tempJson["dateTime"] = DateTime.now().toString();
-    //   listOfJsonsToFirestore.add(tempJson);
-    // }
+        // listOfJsons.add(tempJson);
+        tempJson["urlResult"] = urlResult ?? '_';
+        // tempJson["dateTime"] = DateTime.now().toString();
+        listOfJsonsToFirestore.add(tempJson);
+      }
 
-    // log(jsonEncode(listOfJsons));
-    // print(listOfJsons);
-    // try {
-    //   FirebaseFirestoreController().sendDataToFIrestore(
-    //     {
-    //       "informationRecoilated": listOfJsonsToFirestore,
-    //       "dateTime": DateTime.now().toString()
-    //     },
-    //   );
-    // } catch (e) {
-    //   log(' -------- e : $e');
-    // }
-
-    // return listOfJsons;
+      log(jsonEncode(listOfJsons));
+      print(listOfJsons);
+      try {
+        FirebaseFirestoreController().sendDataToFIrestore(
+          {
+            "informationRecoilated": listOfJsonsToFirestore,
+            "dateTime": DateTime.now().toString()
+          },
+        );
+      } catch (e) {
+        log(' -------- e : $e');
+      }
+    } catch (e) {}
   }
 
   bool isFraud = false;
