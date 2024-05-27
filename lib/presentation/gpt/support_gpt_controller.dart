@@ -1,23 +1,58 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_whatsapp/share_whatsapp.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:yanapa/presentation/home/controller_home.dart';
 import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
 class SupportGptController extends GetxController {
   RxList<ModelMessageToGpt> listMessageToShow = <ModelMessageToGpt>[].obs;
-  ControllerHome controllerHome = Get.find();
   RemoteConfigController remoteConfigController = Get.find();
+  RxList<XFile> listOfImages = <XFile>[].obs;
 
   RxBool waitingResponse = false.obs;
   final ChatGPT chatGPT = ChatGPT();
   final ScrollController scrollController = ScrollController();
 
   String _response = '';
+
+  Future<List<Map<String, String>>> getJsonOfTextSinceImages() async {
+    List<Map<String, String>> listOfJsons = [];
+    for (var xfile in listOfImages) {
+      // listOfImages.forEach((xfile) async {
+      Map<String, String> tempJson = await _getTextFromImage(xfile);
+
+      listOfJsons.add(tempJson);
+    }
+
+    log(jsonEncode(listOfJsons));
+    print(listOfJsons);
+
+    return listOfJsons;
+  }
+
+  Future<Map<String, String>> _getTextFromImage(XFile xfile) async {
+    print(' ------------------------- ');
+    final inputImage = InputImage.fromFile(File(xfile.path));
+    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(inputImage);
+
+    // String text = recognizedText.text;
+    Map<String, String> tempJson = {};
+    int i = 0;
+    for (TextBlock block in recognizedText.blocks) {
+      i = i + 1;
+      tempJson["block_$i"] = (block.text.replaceAll('\n', ' ')).trim();
+      print(' --- ${block.text.trim()}');
+    }
+    return tempJson;
+  }
 
   void scrollToBottom() {
     try {
@@ -33,7 +68,6 @@ class SupportGptController extends GetxController {
 
   @override
   void onInit() {
-    // initChat();
     super.onInit();
   }
 
@@ -67,7 +101,42 @@ class SupportGptController extends GetxController {
     if (response.contains('-ALERTADEFRAUDE-')) {
       isFraud = true;
       showAlertDialog();
+      updateToFirestore();
     }
+  }
+
+  updateToFirestore() async {
+    // // controllerHome.listOfImages
+    // int i = 0;
+    // List<Map<String, String>> listOfJsons = [];
+    // List<Map<String, String>> listOfJsonsToFirestore = [];
+    // for (var xfile in listOfImages) {
+    //   // listOfImages.forEach((xfile) async {
+    //   Map<String, String> tempJson = listJsonsToChatGPT[i];
+
+    //   String? urlResult =
+    //       await FirebaseStorageController().uploadImage(File(xfile.path));
+
+    //   // listOfJsons.add(tempJson);
+    //   tempJson["urlResult"] = urlResult ?? '_';
+    //   // tempJson["dateTime"] = DateTime.now().toString();
+    //   listOfJsonsToFirestore.add(tempJson);
+    // }
+
+    // log(jsonEncode(listOfJsons));
+    // print(listOfJsons);
+    // try {
+    //   FirebaseFirestoreController().sendDataToFIrestore(
+    //     {
+    //       "informationRecoilated": listOfJsonsToFirestore,
+    //       "dateTime": DateTime.now().toString()
+    //     },
+    //   );
+    // } catch (e) {
+    //   log(' -------- e : $e');
+    // }
+
+    // return listOfJsons;
   }
 
   bool isFraud = false;

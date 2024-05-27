@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:yanapa/adhelp.dart';
 import 'package:yanapa/core/utils/utils.dart';
 import 'package:yanapa/presentation/home/admob_controller.dart';
-import 'package:yanapa/presentation/home/controller_home.dart';
+import 'package:yanapa/presentation/home/home_controller.dart';
 import 'package:yanapa/presentation/home/firebase_firestore.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 
@@ -19,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ControllerHome controllerHome = Get.put(ControllerHome());
+  HomeController controllerHome = Get.put(HomeController());
   AdMobController adMobController = Get.find();
 
   @override
@@ -78,11 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         _btnChargeImageHere(size),
                         SizedBox(height: 20),
-                        if (controllerHome.listOfImages.length > 0)
+                        if (controllerHome.gptController.listOfImages.length >
+                            0)
                           Wrap(
                             runSpacing: 10,
                             spacing: 10,
-                            children: controllerHome.listOfImages
+                            children: controllerHome.gptController.listOfImages
                                 .map(
                                   (element) =>
                                       _imageFileItem(File(element.path)),
@@ -108,7 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(15),
                       onTap: () {
-                        if (controllerHome.listOfImages.length == 0) {
+                        if (controllerHome.gptController.listOfImages.length ==
+                            0) {
                           showToastMessage("Por favor cargue alguna imagen");
                         } else {
                           controllerHome.analizeButton();
@@ -247,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _btnChargeImageHere(Size size) {
-    bool _listEmpty = controllerHome.listOfImages.length == 0;
+    bool _listEmpty = controllerHome.gptController.listOfImages.length == 0;
     if (_listEmpty) {
       return InkWell(
         onTap: () {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
-import 'package:yanapa/presentation/home/controller_home.dart';
+import 'package:yanapa/presentation/home/home_controller.dart';
 
 class AssistentGpt extends StatefulWidget {
   AssistentGpt({super.key});
@@ -21,7 +21,7 @@ class _SupportGptScreenState extends State<AssistentGpt> {
   String textSearching = '';
 
   SupportGptController gptController = Get.find();
-  ControllerHome controllerHome = Get.find();
+  HomeController controllerHome = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,8 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                       child: ListView(
                         controller: gptController.scrollController,
                         children: [
-                          if (controllerHome.listOfImages.length > 0)
+                          if (controllerHome.gptController.listOfImages.length >
+                              0)
                             Container(
                               padding: EdgeInsets.all(10),
                               color: Colors.blueGrey,
@@ -60,7 +61,8 @@ class _SupportGptScreenState extends State<AssistentGpt> {
                                   SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
-                                      children: controllerHome.listOfImages
+                                      children: controllerHome
+                                          .gptController.listOfImages
                                           .map(
                                             (element) => Padding(
                                               padding:
