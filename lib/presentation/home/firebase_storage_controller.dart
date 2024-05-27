@@ -8,7 +8,7 @@ class FirebaseStorageController {
   Future<String?> uploadImage(File? image) async {
     if (image != null) {
       // Comprimir la imagen antes de subirla
-      File compressedImageFile = await compressImage(image!);
+      File compressedImageFile = await compressImage(image);
 
       // Subir el archivo comprimido a Firebase Storage
       // String fileName = Path.basename(compressedImageFile.path);
