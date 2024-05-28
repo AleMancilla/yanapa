@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:yanapa/presentation/home/admob_controller.dart';
+import 'package:yanapa/core/utils/admob_controller.dart';
+import 'package:yanapa/core/utils/user_preferens.dart';
+import 'package:yanapa/presentation/home/navigation_screen.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
@@ -35,8 +37,14 @@ class _SplashScreenState extends State<SplashScreen>
     // Aquí puedes cargar tus datos necesarios
     await Future.delayed(Duration(seconds: 5)); // Simula carga de datos
 
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => OnboardingScreen()));
+    if (!(UserPreferences().userCheckOnBoarding ?? false)) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => OnboardingScreen()));
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => NavigationScreen()));
+    }
+
     // context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 

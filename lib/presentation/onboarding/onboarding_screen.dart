@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yanapa/core/utils/user_preferens.dart';
 import 'package:yanapa/presentation/home/home_screen.dart';
 import 'package:yanapa/presentation/home/navigation_screen.dart';
 
@@ -65,6 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         context,
                         MaterialPageRoute(
                             builder: (context) => NavigationScreen()));
+                    UserPreferences().userCheckOnBoarding = true;
                     // MaterialPageRoute(builder: (context) => HomeScreen()));
                   },
                   child: Ink(

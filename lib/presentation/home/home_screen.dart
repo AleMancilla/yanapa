@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:yanapa/adhelp.dart';
+import 'package:yanapa/core/utils/firebase_firestore.dart';
 import 'package:yanapa/core/utils/utils.dart';
-import 'package:yanapa/presentation/home/admob_controller.dart';
+import 'package:yanapa/core/utils/admob_controller.dart';
 import 'package:yanapa/presentation/home/home_controller.dart';
-import 'package:yanapa/presentation/home/firebase_firestore.dart';
 import 'package:yanapa/presentation/onboarding/onboarding_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,13 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
-      floatingActionButton:
-          // FloatingActionButton(onPressed: adMobController.showInterstitialAd),
-          FloatingActionButton(onPressed: () {
-        FirebaseFirestoreController()
-            .sendDataToFIrestore({"datoprueba": "dato123"});
-      }),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      // floatingActionButton:
+      //     // FloatingActionButton(onPressed: adMobController.showInterstitialAd),
+      //     FloatingActionButton(onPressed: () {
+      //   FirebaseFirestoreController()
+      //       .sendDataToFIrestore({"datoprueba": "dato123"});
+      // }),
       body: SafeArea(
         child: Obx(() {
           return Column(

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/material.dart';
-import 'package:yanapa/presentation/home/admob_controller.dart';
+import 'package:yanapa/core/utils/admob_controller.dart';
 // class AdHelper {
 //   static String get bannerAdUnitId {
 //     if (Platform.isAndroid) {

@@ -7,8 +7,9 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:http/http.dart' as http;
 import 'package:share_whatsapp/share_whatsapp.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:yanapa/presentation/home/firebase_firestore.dart';
-import 'package:yanapa/presentation/home/firebase_storage_controller.dart';
+import 'package:yanapa/core/utils/firebase_firestore.dart';
+import 'package:yanapa/core/utils/firebase_storage_controller.dart';
+import 'package:yanapa/core/utils/geolocation_controller.dart';
 import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 
 class SupportGptController extends GetxController {
@@ -20,6 +21,8 @@ class SupportGptController extends GetxController {
   final ChatGPT chatGPT = ChatGPT();
   final ScrollController scrollController = ScrollController();
   List<Map<String, String>> listOfJsonsTextToAnalize = [];
+  GeolocationController geolocationController =
+      Get.put(GeolocationController());
 
   String _response = '';
 
@@ -74,7 +77,7 @@ class SupportGptController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
   }
 
@@ -137,7 +140,9 @@ class SupportGptController extends GetxController {
         FirebaseFirestoreController().sendDataToFIrestore(
           {
             "informationRecoilated": listOfJsonsToFirestore,
-            "dateTime": DateTime.now().toString()
+            "dateTime": DateTime.now().toString(),
+            "lat": geolocationController.position?.latitude ?? 0,
+            "lng": geolocationController.position?.longitude ?? 0
           },
         );
       } catch (e) {

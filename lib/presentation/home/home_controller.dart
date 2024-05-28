@@ -1,23 +1,21 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'dart:developer' as dev;
-
 import 'package:flutter/material.dart';
+import 'package:yanapa/core/utils/geolocation_controller.dart';
+import 'package:yanapa/core/utils/user_preferens.dart';
 import 'package:yanapa/core/utils/utils.dart';
 import 'package:yanapa/presentation/gpt/assistent_gpt.dart';
 import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
-import 'package:yanapa/presentation/home/firebase_firestore.dart';
-import 'package:yanapa/presentation/home/firebase_storage_controller.dart';
 
 class HomeController extends GetxController {
   final picker = ImagePicker();
   SupportGptController gptController = Get.put(SupportGptController());
 
+  GeolocationController geolocationController =
+      Get.put(GeolocationController());
   addListOfFile() async {
     List<XFile> tempList = await getListOfImagesFromGalery();
     gptController.listOfImages.value = [
@@ -65,6 +63,42 @@ class HomeController extends GetxController {
 
   Future analizeButton() async {
     // FirebaseStorageController().
+    if (!(UserPreferences().userPermisionGeolocation ?? false)) {
+      await showDialog(
+        context: Get.context!,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Permisos de Ubicación'),
+            content: Text(
+                'Solicitamos permisos de Ubicación para recopilar informacion de donde pueden operar los posibles estafadores digitales'
+                'Esto nos permitirá mejorar los servicios y alertar a otras personas que no caigan en estas estafas'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Continuar sin permitir',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  UserPreferences().userPermisionGeolocation = true;
+                  await geolocationController.chargePositioned();
+                },
+                child: Text('Permitir'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      excecuteProcess(Get.context!, () async {
+        await geolocationController.chargePositioned();
+      });
+    }
     excecuteProcess(Get.context!, () async {
       // List<Map<String, String>> listOfJsonsTextToAnalize =
       await gptController.chargeTextInListData();

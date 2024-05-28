@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:yanapa/adhelp.dart';
-import 'package:yanapa/presentation/home/admob_controller.dart';
+import 'package:yanapa/core/utils/admob_controller.dart';
 import 'package:yanapa/presentation/remoteconfigs/jsonNoticeRemote.dart';
 import 'package:yanapa/presentation/remoteconfigs/remoteconfigs_controller.dart';
 

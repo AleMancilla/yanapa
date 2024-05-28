@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
+import 'package:yanapa/core/utils/geolocation_controller.dart';
 import 'package:yanapa/presentation/gpt/support_gpt_controller.dart';
 import 'package:yanapa/presentation/home/home_controller.dart';
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logger/web.dart';
+import 'package:yanapa/core/utils/user_preferens.dart';
 import 'package:yanapa/presentation/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -23,6 +24,9 @@ FirebaseMessaging messaging = FirebaseMessaging.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = UserPreferences();
+  await prefs.initPreferences();
 
   MobileAds.instance.initialize();
 
