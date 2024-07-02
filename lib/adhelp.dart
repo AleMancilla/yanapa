@@ -26,7 +26,8 @@ import 'package:yanapa/core/utils/admob_controller.dart';
 // }
 
 class AdHelper {
-  static String get bannerAdUnitId => 'ca-app-pub-3940256099942544/6300978111';
+  static String get bannerAdUnitId => 'ca-app-pub-1819839075312743/9558027211';
+  // static String get bannerAdUnitId => 'ca-app-pub-3940256099942544/6300978111';
   static String get interstitialAdUnitId =>
       'ca-app-pub-3940256099942544/1033173712';
 }
